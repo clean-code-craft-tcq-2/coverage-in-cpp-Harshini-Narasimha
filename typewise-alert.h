@@ -35,7 +35,7 @@ typedef std::map<BreachType,std::string> temperatureStatusList;
 temperatureLimitMap getTemperatureRangeList();
 temperatureStatusList getTemperatureStatusMessageList();
 
-void printOnConsole();
+void printOnConsole(std::string message);
 std::string sendToController(BreachType breachType);
 std::string sendToEmail(BreachType breachType,temperatureStatusList temperatureStatusMessageList);
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
