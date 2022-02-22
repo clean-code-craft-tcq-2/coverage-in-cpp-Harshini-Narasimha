@@ -28,7 +28,7 @@ TEST_CASE("classify the given temperature based on given ranges") {
   temperatureLimitMap tempRangeList=getTemperatureRangeList();
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING,-10,tempRangeList) == TOO_LOW);
   REQUIRE(classifyTemperatureBreach(HI_ACTIVE_COOLING,70,tempRangeList) == TOO_HIGH);
-  REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING,20,tempRangeList) == TOO_HIGH);
+  REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING,20,tempRangeList) == NORMAL);
 }
 
 TEST_CASE("Retrieve the message sent from email") {
