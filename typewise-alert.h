@@ -36,9 +36,8 @@ temperatureLimitMap getTemperatureRangeList();
 temperatureStatusList getTemperatureStatusMessageList();
 
 void printOnConsole();
-void sendToController(BreachType breachType);
-void sendToEmail(BreachType breachType,temperatureStatusList temperatureStatusMessageList);
+std::string sendToController(BreachType breachType);
+std::string sendToEmail(BreachType breachType,temperatureStatusList temperatureStatusMessageList);
 BreachType inferBreach(double value, double lowerLimit, double upperLimit);
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC,temperatureLimitMap temperatureRangeList);
-void checkAndAlert(
-  AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
+void checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
