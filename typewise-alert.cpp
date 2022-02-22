@@ -1,28 +1,29 @@
 #include "typewise-alert.h"
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
 void printOnConsole(std::string message)
 {
-	printf("%s\n",message.c_str());
+    printf("%s\n",message.c_str());
 }
 
 temperatureLimitMap getTemperatureRangeList()
 {
-	temperatureLimitMap tempRangeMap;
+    temperatureLimitMap tempRangeMap;
     tempRangeMap.insert(std::make_pair(PASSIVE_COOLING,std::make_pair(0,35)));
     tempRangeMap.insert(std::make_pair(HI_ACTIVE_COOLING,std::make_pair(0,45)));
     tempRangeMap.insert(std::make_pair(MED_ACTIVE_COOLING,std::make_pair(0,40)));
-	return tempRangeMap;
+    return tempRangeMap;
 }
 
 temperatureStatusList getTemperatureStatusMessageList()
 {
-	temperatureStatusList tempStatusList;
-    tempStatusList.insert(std::make_pair(TOO_LOW,"Temperature is too low")),
-	tempStatusList.insert(std::make_pair(TOO_HIGH,"Temperature is too high")),
-	tempStatusList.insert(std::make_pair(NORMAL,"Temperature is normal"));
-	return tempStatusList;
+     temperatureStatusList tempStatusList;
+     tempStatusList.insert(std::make_pair(TOO_LOW,"Temperature is too low")),
+     tempStatusList.insert(std::make_pair(TOO_HIGH,"Temperature is too high")),
+     tempStatusList.insert(std::make_pair(NORMAL,"Temperature is normal"));
+     return tempStatusList;
 };
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
@@ -35,10 +36,10 @@ BreachType classifyTemperatureBreach(
 }
 
 std::string sendToController(BreachType breachType) {
-  std::string outputMessage = "";
   const unsigned short header = 0xfeed;
-  outputMessage = std::to_string(header)+ std::to_string(breachType);
-  return outputMessage;
+  std::stringstream outputMessage;
+  outputMessage << std::hex << header << " : " << std::hex << breachType;
+  return outputMessage.str();
 }
 
 std::string sendToEmail(BreachType breachType,temperatureStatusList temperatureStatusMessageList) {
@@ -55,8 +56,8 @@ std::string sendToEmail(BreachType breachType,temperatureStatusList temperatureS
 void checkAndAlert(
     AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 		
-	temperatureLimitMap tempRangeMap=getTemperatureRangeList();
-	temperatureStatusList tempStatusList=getTemperatureStatusMessageList();
+    temperatureLimitMap tempRangeMap=getTemperatureRangeList();
+    temperatureStatusList tempStatusList=getTemperatureStatusMessageList();
     BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC,tempRangeMap);
 
     std::string message=(alertTarget ==TO_CONTROLLER)?sendToController(breachType):sendToEmail(breachType,tempStatusList);
