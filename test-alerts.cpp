@@ -21,7 +21,7 @@ TEST_CASE("get temperature status message list") {
   temperatureStatusList tempStatusList=getTemperatureStatusMessageList();
   REQUIRE(tempStatusList.size() == 3);
   REQUIRE(tempStatusList.begin()->first == NORMAL);
-  REQUIRE(tempRangeList.begin()->second == "Temperature is normal");
+  REQUIRE(tempStatusList.begin()->second == "Temperature is normal");
 }
 
 TEST_CASE("classify the given temperature based on given ranges") {
